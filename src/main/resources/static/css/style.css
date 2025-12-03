@@ -68,7 +68,6 @@ h1, h2, h3 {
     border: 1px solid #ccc;
 }
 .auth-buttons button {
-    /* 기본 스타일: 완전히 투명하고 테두리 없음 */
     border: none;
     background-color: transparent;
     color: #6c757d; /* 옅은 회색 텍스트 (무채색 기반) */
@@ -299,7 +298,32 @@ h3{
     background-color: #007BFF;
     color: white;
 }
+.auth-links-footer {
+    display: flex;
+    flex-direction: column; /* 요소들을 세로로 쌓음 */
+    align-items: center; /* 중앙 정렬 */
+    width: 100%;
+    margin-top: 20px; /* 로그인 버튼과의 간격 확보 */
+}
 
+/* 2. 비밀번호 찾기 링크 스타일 (작은 글씨) */
+.forgot-password-link {
+    font-size: 13px;
+    color: #007bff; /* 파란색으로 포인트 */
+    text-decoration: none;
+    margin-bottom: 15px; /* 회원가입 섹션과 간격 확보 */
+}
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+.form-description {
+     font-size: 15px;
+     color: #6c757d;
+     margin-bottom: 25px; /* 입력 필드와의 간격 확보 */
+     line-height: 1.5;
+     text-align: center; /* 중앙 정렬 컨테이너 안에서 텍스트는 좌측 정렬 */
+     width: 100%; /* 너비를 100%로 설정 */
+ }
 .auth-form a {
     display: block;
     margin-top: 15px;
@@ -309,15 +333,32 @@ h3{
 .auth-link-container {
     /* 텍스트와 링크를 한 줄에 표시 (기본값) */
     display: inline-flex;
-    margin-top: 40px;
     justify-content: center;
     align-items: center;
     color: #666;
     font-size: 14px;
     white-space: nowrap;
 }
+.auth-link-container2 {
+    /* 텍스트와 링크를 한 줄에 표시 (기본값) */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+    margin-top: 40px;
+}
 
 .auth-link-container a {
+    /* 링크만 파란색 (기본 링크 색상)으로 유지 */
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: -1px;
+}
+.auth-link-container2 a {
     /* 링크만 파란색 (기본 링크 색상)으로 유지 */
     color: #007BFF;
     text-decoration: none;
