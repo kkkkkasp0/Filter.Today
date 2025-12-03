@@ -1,0 +1,327 @@
+*, *::before, *::after {
+    box-sizing: border-box; /* 모든 요소에 적용하여 삐져나감 문제를 원천 차단 */
+}
+/*
+ * =========================================================
+ * 1. 기본 스타일 및 초기화 (Reset & Base)
+ * =========================================================
+ */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f9; /* 무채색 배경 */
+    color: #333;
+    /* 이 속성들은 login.html/signup.html의 전체 화면 중앙 정렬을 위해 index.html과 공유됨 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+/* index.html의 메인 컨텐츠만 flex 영향을 받지 않도록 예외 처리 */
+.dashboard-container {
+    align-self: flex-start; /* flex-start로 상단에 고정 */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+/*
+ * =========================================================
+ * 2. A. 네비게이션 바 스타일 (index.html)
+ * =========================================================
+ */
+#navigation-bar {
+    /* 네비게이션 바는 화면 전체 너비를 사용하며 body의 flex 중앙 정렬을 무시해야 함 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* 다른 요소 위에 표시 */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.logo {
+    font-size: 26.7px;
+    font-weight: bold;
+    color: #333;
+}
+#month-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.month-selector select {
+    margin-left: 5px; /* 드롭다운 사이에 간격 추가 */
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.auth-buttons button {
+    /* 기본 스타일: 완전히 투명하고 테두리 없음 */
+    border: none;
+    background-color: transparent;
+    color: #6c757d; /* 옅은 회색 텍스트 (무채색 기반) */
+    cursor: pointer;
+
+    font-size: 15px; /* 약간 키워서 존재감 확보 */
+    font-weight: 500;
+    letter-spacing: 0.5px; /* 글자 간격을 살짝 띄워 세련미 강조 */
+
+    padding: 8px 12px;
+    border-radius: 4px;
+
+    transition: color 0.2s ease-in-out, transform 0.1s; /* 색상 전환만 부드럽게 */
+
+    margin-left: 10px;
+}
+
+/* 2. '로그아웃' 버튼 호버 효과: 일반 텍스트가 약간 진해짐 */
+/* #logout-btn에도 적용됨 */
+.auth-buttons button:hover {
+    color: #343a40; /* 짙은 회색으로 살짝 진해짐 */
+    background-color: transparent; /* 배경색 변화 없음 */
+}
+
+/* 3. '로그인' 버튼 강조: 갬성적인 골드/주황색 계열 텍스트 포인트 */
+#login-btn {
+    /* 평소에는 옅은 텍스트 */
+    color: #6c757d;
+    font-weight: 600; /* 굵기만 더 강조 */
+}
+
+#login-btn:hover {
+    /* 호버 시 주황색 계열 (감성 톤) 텍스트로 변화 */
+    color: #FF9900;
+    /* 미세한 입체감을 위한 그림자 (선택 사항, 깔끔함을 위해 제거 가능) */
+    text-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+}
+
+/*
+ * =========================================================
+ * 3. 메인 대시보드 레이아웃 (index.html)
+ * =========================================================
+ */
+.dashboard-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 80px auto 20px auto; /* 네비게이션바 높이만큼 여백 확보 */
+    padding: 0 20px;
+    width: 100%; /* max-width가 적용되도록 */
+}
+
+/* B. 톤앤무드 섹션 */
+#hue-map-section {
+    flex: 3;
+    padding-right: 20px;
+}
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.day-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px 0;
+    color: #666;
+}
+.date-block {
+    height: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    border-radius: 4px;
+    background-color: #ddd;
+    color: #999;
+}
+.date-block:hover {
+    transform: scale(1.03);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 사이드바 스타일 (C. 통계, D. 입력폼) */
+.sidebar {
+    margin-top: 75px;
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+#stats-section, #diary-input-section {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.chart-container {
+    max-height: 300px;
+}
+
+
+/*
+ * =========================================================
+ * 4. D. 기록/입력 폼 스타일 (index.html)
+ * =========================================================
+ */
+#diary-text-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+#save-diary-btn, #delete-diary-btn {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+#save-diary-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+#delete-diary-btn {
+    background-color: #f44336;
+    color: white;
+    margin-left: 5px;
+}
+#color-picker-placeholder{
+    margin: 30px 0 0 15px;
+}
+#selected-emotion-label{
+    font-size: 14px;
+}
+h2{
+    margin-top: 20px;
+}
+h3{
+    font-size: 20px;
+    margin: -5px 0 0 -15px;/*위 오른쪽 아래 왼*/
+}
+
+
+/*
+ * =========================================================
+ * 5. 로그인/회원가입 스타일 (login.html, signup.html)
+ * =========================================================
+ */
+
+.home-link {
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 부모 요소(h1)의 색상을 상속받도록 설정 */
+    cursor: pointer; /* 클릭 가능한 요소임을 명확히 표시 */
+    color: #333;
+}
+
+.auth-container {
+    background-color: #fff;
+    padding: 90px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    text-align: center;
+    /* body의 중앙 정렬 flex에 의해 화면 중앙에 배치됨 */
+}
+/* 타이틀 정렬 (아이콘과 텍스트 한 줄 정렬) */
+.auth-container h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    color: #333;
+    font-size: 26px;
+    color: #333;color: #333;
+}
+.auth-container h1 .key-icon {
+    font-size: 28px;
+    margin-right: 8px;
+    color: #333;
+}
+/* 폼 컨테이너 설정 (버튼 중앙 정렬을 위해) */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 자식 요소(버튼)를 가로 중앙에 배치 */
+    width: 100%;
+}
+.auth-form input {
+    width: 90%;
+    padding: 13px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+/* 버튼 스타일 (너비 제한 및 중앙 정렬) */
+.auth-form button {
+    max-width: 100px; /* 로그인/회원가입 버튼의 최대 너비 제한 */
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: bold;
+}
+/* 로그인 페이지 버튼 색상 */
+.auth-container #login-form button {
+    background-color: #4CAF50;
+    color: white;
+}
+/* 회원가입 페이지 버튼 색상 */
+.auth-container #signup-form button {
+    background-color: #007BFF;
+    color: white;
+}
+
+.auth-form a {
+    display: block;
+    margin-top: 15px;
+    color: #666;
+    text-decoration: none;
+}
+.auth-link-container {
+    /* 텍스트와 링크를 한 줄에 표시 (기본값) */
+    display: inline-flex;
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.auth-link-container a {
+    /* 링크만 파란색 (기본 링크 색상)으로 유지 */
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: -1px;
+}
