@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "diary_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
