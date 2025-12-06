@@ -2,8 +2,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const loginForm = document.getElementById('login-form');
+
+    // ★ 이 if 문이 없어서 에러가 난 것입니다. 추가해주세요!
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+
     document.getElementById('login-btn').addEventListener('click', () => {
-        window.location.href = 'login.html';
+        window.location.href = '/login';
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {

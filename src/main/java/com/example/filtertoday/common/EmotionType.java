@@ -8,7 +8,8 @@ public enum EmotionType {
     CALM("차분함", "#ADD8E6"), // 하늘색 계열
     ANGER("분노", "#FF4500"), // 붉은 계열
     SADNESS("슬픔", "#4682B4"), // 푸른 계열
-    ANXIETY("불안", "#808080"); // 회색 계열
+    ANXIETY("불안", "#808080"), // 회색 계열
+    NORMAL("보통", "#E0E0E0");
 
     private final String koreanName;
     private final String representativeHexCode;

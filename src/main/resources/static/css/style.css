@@ -154,16 +154,35 @@ h1, h2, h3 {
     border-radius: 4px;
     background-color: #ddd;
     color: #999;
+    display: flex;
+    flex-direction: column; /* 날짜 숫자와 메모를 세로로 배치 */
+    justify-content: flex-start; /* 위쪽 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    overflow: hidden; /* 박스를 벗어나는 내용 숨김 */
 }
 .date-block:hover {
     transform: scale(1.03);
     z-index: 10;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+.memo-preview {
+    font-size: 10px;       /* 아주 작은 글씨 */
+    color: rgba(255, 255, 255, 0.9); /* 흰색 글씨 (배경색이 진할 것을 대비) */
+    width: 100%;           /* 가로 꽉 차게 */
+    margin-top: 5px;       /* 날짜 숫자와 간격 */
+
+    /* 긴 글씨를 ...으로 줄이는 마법의 3줄 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    text-align: left;
+    padding-left: 2px;
+}
 
 /* 사이드바 스타일 (C. 통계, D. 입력폼) */
 .sidebar {
-    margin-top: 75px;
+    margin-top: 122px;
     flex: 1.5;
     display: flex;
     flex-direction: column;
@@ -365,4 +384,33 @@ h3{
     font-weight: bold;
     margin-left: 10px;
     margin-top: -1px;
+}
+
+/* 감정 범례(Legend) 스타일 */
+.emotion-legend {
+    display: flex;
+    flex-wrap: wrap; /* 화면이 좁으면 다음 줄로 넘김 */
+    gap: 15px;       /* 항목 간 간격 */
+    margin-bottom: 15px; /* 달력과의 간격 */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    justify-content: flex-start; /* 왼쪽 정렬 (중앙 정렬 원하면 center) */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+.color-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%; /* 동그라미 모양 */
+    margin-right: 6px;  /* 글자와의 간격 */
+    border: 1px solid rgba(0,0,0,0.1); /* 연한 테두리로 흰 배경에서도 잘 보이게 */
 }

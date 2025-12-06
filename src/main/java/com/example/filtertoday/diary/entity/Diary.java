@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Diary {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_id")
@@ -27,19 +28,28 @@ public class Diary {
     private Member member;
 
     @Column(nullable = false)
-    private LocalDate recordDate; // 기록 일자 (YYYY-MM-DD)
+    private LocalDate recordDate;
 
     @Column(nullable = false, length = 7)
-    private String hexCode; // HEX 색상 코드 (예: #A3E4D7)
+    private String hexCode;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EmotionType emotionType;
 
-    @Column(columnDefinition = "TEXT") // 긴 텍스트 저장을 위해 TEXT 타입 사용
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    // ★ [추가] 일기 수정을 위한 비즈니스 메서드 (Dirty Checking 용)
+    public void update(String content, String hexCode, EmotionType emotionType) {
+        this.content = content;
+        this.hexCode = hexCode;
+        if (emotionType != null) {
+            this.emotionType = emotionType;
+        }
+    }
 }

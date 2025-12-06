@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter.Today 로그인</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="auth-container">
+    <a th:href="@{/}" class="home-link">
+        <h1><span class="key-icon">🔑</span> Filter.Today 로그인</h1>
+    </a>
+
+    <form class="auth-form" action="/login-process" method="post">
+
+        <input type="email" name="email" id="email" placeholder="이메일 주소" required>
+
+        <input type="password" name="password" id="password" placeholder="비밀번호" required>
+
+        <button type="submit">로그인</button>
+
+        <div class="auth-links-footer">
+            <a href="find_password.html" class="forgot-password-link">비밀번호 찾기</a>
+            <div class="auth-link-container">
+                <span>계정이 없으신가요?</span>
+                <a th:href="@{/signup}">회원가입</a>
+            </div>
+        </div>
+    </form>
+    <p th:if="${param.error}" style="color: red; margin-top: 10px;">
+        이메일 또는 비밀번호가 올바르지 않습니다.
+    </p>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@ package com.example.filtertoday.analysis.controller;
 import com.example.filtertoday.analysis.dto.AnalysisStatsResponseDto;
 import com.example.filtertoday.analysis.dto.AnalysisToneMapResponseDto;
 import com.example.filtertoday.analysis.service.AnalysisService;
-import com.example.filtertoday.analysis.service.ColorClassificationService;
+//import com.example.filtertoday.analysis.service.ColorClassificationService;
 import com.example.filtertoday.member.entity.Member;
 import com.example.filtertoday.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

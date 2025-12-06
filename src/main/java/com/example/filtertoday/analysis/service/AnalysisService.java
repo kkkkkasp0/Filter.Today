@@ -2,7 +2,7 @@ package com.example.filtertoday.analysis.service;
 
 import com.example.filtertoday.analysis.dto.AnalysisStatsResponseDto;
 import com.example.filtertoday.analysis.dto.AnalysisToneMapResponseDto;
-import com.example.filtertoday.analysis.repository.AnalysisRepository;
+//import com.example.filtertoday.analysis.repository.AnalysisRepository;
 import com.example.filtertoday.common.EmotionType;
 import com.example.filtertoday.diary.entity.Diary;
 import com.example.filtertoday.diary.repository.DiaryRepository;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class AnalysisService {
 
     private final DiaryRepository diaryRepository;
-    private final AnalysisRepository analysisRepository;
+//    private final AnalysisRepository analysisRepository;
 
     // 톤 맵 데이터 조회 메서드
     @Transactional(readOnly = true)
