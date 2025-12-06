@@ -15,6 +15,12 @@ spring:
     restart:
       enabled: true
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/filtertoday?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root1234
+
   jpa:
     open-in-view: true      #
     hibernate:
