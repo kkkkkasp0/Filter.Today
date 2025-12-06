@@ -3,10 +3,14 @@ package com.example.filtertoday.diary.dto;
 import com.example.filtertoday.diary.entity.Diary;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class DiaryResponseDto {
     private Long diaryId;
     private String content;

@@ -15,7 +15,7 @@
     <div class="logo">🎨 Filter.Today</div>
 
     <div class="month-selector">
-        <label for="year-select">select:</label>
+        <label for="year-select">날짜:</label>
         <select id="year-select"></select>
         <select id="month-select"></select>
     </div>
@@ -45,24 +45,14 @@
         <h2>🌈 Tone & Mood </h2>
 
         <div class="emotion-legend">
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #FFD700;"></span> 기쁨
-            </div>
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #ADD8E6;"></span> 차분함
-            </div>
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #E0E0E0;"></span> 보통
-            </div>
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #4682B4;"></span> 슬픔
-            </div>
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #808080;"></span> 불안
-            </div>
-            <div class="legend-item">
-                <span class="color-dot" style="background-color: #FF4500;"></span> 분노
-            </div>
+            <div class="legend-item"><span class="color-dot" style="background: #FFD700;"></span>즐거움</div>
+            <div class="legend-item"><span class="color-dot" style="background: #FFA500;"></span>설렘</div>
+            <div class="legend-item"><span class="color-dot" style="background: #32CD32;"></span>뿌듯함</div>
+            <div class="legend-item"><span class="color-dot" style="background: #ADD8E6;"></span>차분함</div>
+            <div class="legend-item"><span class="color-dot" style="background: #9370DB;"></span>스트레스</div>
+            <div class="legend-item"><span class="color-dot" style="background: #FF4500;"></span>분노</div>
+            <div class="legend-item"><span class="color-dot" style="background: #4682B4;"></span>슬픔</div>
+            <div class="legend-item"><span class="color-dot" style="background: #A9A9A9;"></span>피곤함</div>
         </div>
         <div id="calendar-grid">
             <div class="day-header">월</div>
@@ -91,14 +81,41 @@
             </div>
             <input type="hidden" id="selected-date-hidden">
 
+            <div class="input-mode-tabs" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button id="mode-manual-btn" class="mode-btn active" onclick="setEntryMode('manual')">🎨 직접 선택</button>
+                <button id="mode-ai-btn" class="mode-btn" onclick="setEntryMode('ai')">🤖 AI 분석</button>
+            </div>
+
             <div id="color-picker-placeholder" style="margin-top: 10px;">
-                <input type="color" id="emotion-color-picker" value="#ff9900">
-                <span id="selected-emotion-label"> [EmotionColor]</span>
-                <textarea id="diary-text-input" placeholder="오늘의 감정을 기록하거나, 과거의 기록을 클릭하여 수정하세요." rows="4"></textarea>
+                <div id="manual-input-area">
+                    <input type="color" id="emotion-color-picker" value="#ff9900">
+                    <span id="selected-emotion-label"> [EmotionColor]</span>
+                </div>
+
+                <textarea id="diary-text-input" placeholder="오늘의 감정을 기록하세요." rows="4"></textarea>
+
                 <button id="save-diary-btn">저장</button>
                 <button id="delete-diary-btn" style="display:none;">삭제</button>
             </div>
         </section>
+
+        <div id="ai-result-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <h3>🤖 AI 분석 결과</h3>
+                <p>작성하신 일기를 분석해보니...</p>
+
+                <div id="ai-result-display" style="margin: 20px 0; text-align: center;">
+                    <div id="ai-color-circle" style="width: 50px; height: 50px; border-radius: 50%; margin: 0 auto;"></div>
+                    <h4 id="ai-emotion-text" style="margin-top: 10px;">기쁨</h4>
+                </div>
+
+                <p>이 감정으로 저장하시겠습니까?</p>
+                <div class="modal-buttons">
+                    <button id="ai-confirm-btn" style="background-color: #4CAF50; color: white;">네, 저장할게요</button>
+                    <button onclick="closeAiModal()" style="background-color: #f44336; color: white;">아니요</button>
+                </div>
+            </div>
+        </div>
     </aside>
 </main>
 

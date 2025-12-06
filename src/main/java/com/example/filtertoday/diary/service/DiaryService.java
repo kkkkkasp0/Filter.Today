@@ -1,18 +1,25 @@
 package com.example.filtertoday.diary.service;
 
 import com.example.filtertoday.common.EmotionType;
+import com.example.filtertoday.diary.dto.AiResponseDto;
 import com.example.filtertoday.diary.entity.Diary;
 import com.example.filtertoday.diary.repository.DiaryRepository;
 import com.example.filtertoday.diary.dto.DiaryRequestDto;
 import com.example.filtertoday.diary.dto.DiaryResponseDto;
 import com.example.filtertoday.member.entity.Member;
 import com.example.filtertoday.member.repository.MemberRepository;
+import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
+import kr.co.shineware.nlp.komoran.core.Komoran;
+import kr.co.shineware.nlp.komoran.model.KomoranResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,6 +29,8 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
+    private final Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+    private final WebClient webClient = WebClient.create("http://localhost:8000");
 
     // 1. 일기 조회 (날짜 기준)
     public DiaryResponseDto getDiaryByDate(String email, LocalDate date) {
@@ -89,5 +98,55 @@ public class DiaryService {
         if (hexCode.equalsIgnoreCase("#4682B4")) return EmotionType.SADNESS;
 
         return EmotionType.NORMAL; // 기본값
+    }
+
+    public EmotionType analyzeEmotion(String content) {
+        if (content == null || content.trim().isEmpty()) return EmotionType.NORMAL;
+
+        try {
+            // 1. 파이썬 서버(/analyze)로 POST 요청 전송
+            AiResponseDto response = webClient.post()
+                    .uri("/analyze")
+                    .bodyValue(Map.of("content", content)) // {"content": "일기내용"} JSON 전송
+                    .retrieve()
+                    .bodyToMono(AiResponseDto.class) // 응답을 DTO로 변환
+                    .block(); // 결과가 올 때까지 기다림 (동기 처리)
+
+            System.out.println("====== AI 응답 확인 ======");
+            System.out.println("보낸 문장: " + content);
+            System.out.println("AI가 준 감정(영어): " + response.getEmotion());
+            System.out.println("AI가 준 라벨(한글): " + response.getKorean_label());
+            System.out.println("========================");
+
+            // 2. 결과가 오면 Enum으로 변환해서 반환
+            if (response != null && response.getEmotion() != null) {
+                System.out.println("AI 분석 결과: " + response.toString()); // 로그 확인용
+                return EmotionType.valueOf(response.getEmotion());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Python 서버 연결 실패! 기본값으로 대체합니다.");
+        }
+
+        return EmotionType.NORMAL; // 실패 시 기본값
+    }
+
+    // 헬퍼 메서드: 리스트 안에 키워드가 포함되어 있는지 확인
+    private boolean checkKeywords(List<String> extractedWords, String... keywords) {
+        for (String word : extractedWords) {
+            for (String key : keywords) {
+                // 추출된 단어(word)가 키워드(key)를 포함하고 있는지 확인
+                if (word.contains(key)) return true;
+            }
+        }
+        return false;
+    }
+
+    // 헬퍼 메서드: 키워드가 하나라도 포함되어 있는지 확인
+    private boolean containsKeyword(String text, String... keywords) {
+        for (String keyword : keywords) {
+            if (text.contains(keyword)) return true;
+        }
+        return false;
     }
 }

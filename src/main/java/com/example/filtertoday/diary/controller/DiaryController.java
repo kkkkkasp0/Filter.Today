@@ -1,5 +1,6 @@
 package com.example.filtertoday.diary.controller;
 
+import com.example.filtertoday.common.EmotionType;
 import com.example.filtertoday.diary.dto.DiaryRequestDto;
 import com.example.filtertoday.diary.dto.DiaryResponseDto;
 import com.example.filtertoday.diary.service.DiaryService;
@@ -72,5 +73,20 @@ public class DiaryController {
     ) {
         diaryService.deleteDiary(id);
         return ResponseEntity.ok("삭제되었습니다.");
+    }
+
+    // 5. 감정 분석 요청 (텍스트 -> 감정 결과 반환)
+    @PostMapping("/analyze")
+    public ResponseEntity<DiaryResponseDto> analyzeDiary(@RequestBody DiaryRequestDto requestDto) {
+        // 서비스의 분석 메서드 호출
+        EmotionType resultEmotion = diaryService.analyzeEmotion(requestDto.getContent());
+
+        // 결과를 DTO에 담아서 보냄 (화면에 보여주기 위해)
+        DiaryResponseDto diaryResponseDto = new DiaryResponseDto();
+        diaryResponseDto.setEmotionType(resultEmotion.name()); // "JOY"
+        diaryResponseDto.setHexCode(resultEmotion.getRepresentativeHexCode()); // "#FFD700"
+        // (필요하다면 한글 이름도 같이 보내줄 수 있음)
+
+        return ResponseEntity.ok(diaryResponseDto);
     }
 }

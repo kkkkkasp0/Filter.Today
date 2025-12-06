@@ -60,22 +60,22 @@ public class AnalysisService {
                     .emotionType(type)
                     .emotionType_label(type.name())
                     .count(count.intValue())
-                    .hexCode(getRepresentativeColor(type)) // 색상 매핑
+                    .hexCode(type.getRepresentativeHexCode()) // 색상 매핑
                     .build());
         }
         return statsResponses;
     }
 
     // (통계 전용) 대표 색상 반환
-    private String getRepresentativeColor(EmotionType type) {
-        return switch (type) {
-            case JOY -> "#FFD700";
-            case SADNESS -> "#4682B4";
-            case ANGER -> "#FF4500";
-            case ANXIETY -> "#800080";
-            default -> "#808080";
-        };
-    }
+//    private String getRepresentativeColor(EmotionType type) {
+//        return switch (type) {
+//            case JOY -> "#FFD700";
+//            case SADNESS -> "#4682B4";
+//            case ANGER -> "#FF4500";
+//            case ANXIETY -> "#800080";
+//            default -> "#808080";
+//        };
+//    }
 
     // 월별 일기 조회
     private List<Diary> getDiariesByMonth(Long memberId, int year, int month) {
