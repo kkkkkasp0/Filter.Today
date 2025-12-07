@@ -205,8 +205,13 @@ async function loadDiaryForDate(dateKey) {
     const label = document.getElementById('selected-emotion-label');
 
     // UI 초기화
-    textInput.value = '데이터를 확인 중...';
-    deleteBtn.style.display = 'none';
+    if (textInput) {
+        textInput.disabled = false;
+        textInput.placeholder = "오늘의 감정을 기록하세요.";
+        textInput.value = '데이터를 확인 중...'; // 로딩 중 표시
+    }
+
+    if (deleteBtn) deleteBtn.style.display = 'none';
 
     try {
         const response = await fetch(`/api/diary?recordDate=${dateKey}`, {
@@ -217,7 +222,9 @@ async function loadDiaryForDate(dateKey) {
         if (response.ok) {
             // 내용이 없을 경우(204)를 대비
             const text = await response.text();
-            if (text) data = JSON.parse(text);
+            if (text && text.trim().startsWith("{")) {
+                data = JSON.parse(text);
+            }
         }
 
         if (data && data.content) {
@@ -226,15 +233,19 @@ async function loadDiaryForDate(dateKey) {
             if(colorPicker) colorPicker.value = data.hexCode;
             if(label) label.textContent = ` (${data.emotionType || '감정'})`;
 
-            deleteBtn.style.display = 'inline-block';
-            deleteBtn.setAttribute('data-id', data.diaryId || data.diaryId);
+            if(deleteBtn) {
+                deleteBtn.style.display = 'inline-block';
+                deleteBtn.setAttribute('data-id', data.diaryId || data.id);
+            }
         } else {
             // 데이터 없음: 새 글 작성 모드
             textInput.value = '';
             if(colorPicker) colorPicker.value = '#ff9900';
             if(label) label.textContent = ' (새 기록)';
-            deleteBtn.style.display = 'none';
-            deleteBtn.removeAttribute('data-id');
+            if(deleteBtn) {
+                deleteBtn.style.display = 'none';
+                deleteBtn.removeAttribute('data-id');
+            }
         }
 
     } catch (error) {

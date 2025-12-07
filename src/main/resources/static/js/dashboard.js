@@ -101,6 +101,10 @@ function renderHueMap(year, month, heatmapData) {
     const numDays = new Date(year, month, 0).getDate();
     const startOffset = (firstDay === 0) ? 6 : firstDay - 1;
 
+    // ★ 오늘 날짜 구하기 (시간은 00:00:00으로 맞춰서 날짜만 비교)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     // 빈 칸 채우기
     for (let i = 0; i < startOffset; i++) {
         grid.appendChild(document.createElement('div'));
@@ -113,46 +117,57 @@ function renderHueMap(year, month, heatmapData) {
         const dateKey = `${year}-${monthStr}-${dayStr}`;
         const data = heatmapData[dateKey];
 
+        // 현재 달력 칸의 날짜 객체 생성
+        const cellDate = new Date(year, month - 1, day);
+
         const block = document.createElement('div');
         block.className = 'date-block';
 
-        // ★ 수정: 날짜 숫자를 span으로 감싸서 독립적으로 관리
         const dateNum = document.createElement('span');
         dateNum.innerText = day;
         dateNum.style.fontWeight = 'bold';
         block.appendChild(dateNum);
 
-        block.style.cursor = 'pointer';
-
+        // 일기 데이터가 있으면 표시
         if (data) {
             block.style.backgroundColor = data.hexCode;
             block.title = data.content;
             block.classList.add('has-diary');
 
-            // ★★★ 추가된 부분: 메모 내용이 있으면 달력에 표시 ★★★
             if (data.content) {
                 const memoDiv = document.createElement('div');
-                memoDiv.className = 'memo-preview'; // CSS 클래스 적용
-                memoDiv.innerText = data.content;   // 일기 내용 넣기
+                memoDiv.className = 'memo-preview';
+                memoDiv.innerText = data.content;
                 block.appendChild(memoDiv);
             }
         }
 
-        // 클릭 이벤트
-        block.addEventListener('click', function() {
-            const prevSelected = document.querySelector('.date-block.selected');
-            if (prevSelected) prevSelected.classList.remove('selected');
+        // ★★★ [핵심] 미래 날짜인지 확인 ★★★
+        if (cellDate > today) {
+            // 미래 날짜면: 클릭 불가 클래스 추가 & 이벤트 연결 안 함
+            block.classList.add('future-day');
+            block.title = "미래의 날짜는 선택할 수 없습니다.";
+        } else {
+            // 오늘 또는 과거라면: 클릭 이벤트 연결
+            block.style.cursor = 'pointer';
 
-            block.classList.add('selected');
+            block.addEventListener('click', function() {
+                const prevSelected = document.querySelector('.date-block.selected');
+                if (prevSelected) prevSelected.classList.remove('selected');
 
-            const dateDisplay = document.getElementById('date-display-area');
-            if (dateDisplay) {
-                dateDisplay.innerText = `📅 선택된 날짜: ${dateKey}`;
-            }
-            if (typeof loadDiaryForDate === 'function') {
-                loadDiaryForDate(dateKey);
-            }
-        });
+                block.classList.add('selected');
+
+                const dateDisplay = document.getElementById('date-display-area');
+                if (dateDisplay) {
+                    dateDisplay.innerText = `📅 선택된 날짜: ${dateKey}`;
+                }
+
+                // 날짜 클릭 시 loadDiaryForDate 호출 (diary.js)
+                if (typeof loadDiaryForDate === 'function') {
+                    loadDiaryForDate(dateKey);
+                }
+            });
+        }
 
         grid.appendChild(block);
     }

@@ -86,18 +86,18 @@ public class DiaryService {
         diary.update(dto.getContent(), dto.getHexCode(), type);
     }
 
-    // [헬퍼] 색상 코드로 감정 타입 결정하는 로직 (임시 구현)
     private EmotionType determineEmotion(String hexCode) {
-        // TODO: 나중에 여기에 복잡한 AI 분석이나 색상 매핑 로직을 넣으세요.
-        // 지금은 일단 모두 NORMAL로 하거나, 간단히 노란색 계열이면 HAPPY 등으로 분기 가능
         if (hexCode == null) return EmotionType.NORMAL;
 
-        // 예시: 노란색(#FFFF00)이면 HAPPY
-        if (hexCode.equalsIgnoreCase("#FFD700")) return EmotionType.JOY;
-        // 예시: 파란색(#0000FF)이면 SAD
-        if (hexCode.equalsIgnoreCase("#4682B4")) return EmotionType.SADNESS;
+        // EmotionType의 모든 값들을 순회하면서 색상이 일치하는지 확인
+        for (EmotionType type : EmotionType.values()) {
+            if (type.getRepresentativeHexCode().equalsIgnoreCase(hexCode)) {
+                return type;
+            }
+        }
 
-        return EmotionType.NORMAL; // 기본값
+        // 그래도 없으면 NORMAL
+        return EmotionType.NORMAL;
     }
 
     public EmotionType analyzeEmotion(String content) {

@@ -89,10 +89,12 @@
             <div id="color-picker-placeholder" style="margin-top: 10px;">
                 <div id="manual-input-area">
                     <input type="color" id="emotion-color-picker" value="#ff9900">
-                    <span id="selected-emotion-label"> [EmotionColor]</span>
+                    <span id="selected-emotion-label"> (새 기록)</span>
                 </div>
 
-                <textarea id="diary-text-input" placeholder="오늘의 감정을 기록하세요." rows="4"></textarea>
+                <textarea id="diary-text-input"
+                          placeholder="달력에서 날짜를 먼저 선택해야 작성할 수 있습니다."
+                          rows="4" disabled></textarea>
 
                 <button id="save-diary-btn">저장</button>
                 <button id="delete-diary-btn" style="display:none;">삭제</button>
