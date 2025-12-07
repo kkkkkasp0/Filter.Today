@@ -241,9 +241,9 @@ function renderWordCloud(keywords) {
     // 라이브러리 실행
     WordCloud(canvas, {
         list: list,
-        gridSize: 12,
+        gridSize: 15,
         weightFactor: function (size) {
-            return Math.pow(size, 0.9) * 1.8;
+            return Math.pow(size, 0.9) * 3;
         },
         fontFamily: 'Segoe UI, sans-serif',
         color: function () {
@@ -258,12 +258,31 @@ function renderWordCloud(keywords) {
 
 // 7. 이미지 다운로드 함수 (캘린더 함수 밖으로 꺼냄!)
 function downloadCloudImage() {
-    const canvas = document.getElementById('word-cloud-canvas');
-    if (!canvas) return;
+    const targetElement = document.getElementById('wordcloud-section');
+    const footerElement = targetElement.querySelector('.cloud-footer'); // 푸터(.cloud-footer) 요소를 찾습니다.
 
-    const link = document.createElement('a');
-    link.download = 'my-monthly-keywords.png';
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    if (!targetElement || typeof html2canvas === 'undefined') {
+        alert("다운로드 기능을 위한 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 1. 푸터(공유 문구 및 버튼) 임시 숨기기
+    footerElement.style.display = 'none';
+
+    // 2. HTML2CANVAS 실행
+    html2canvas(targetElement, {
+        allowTaint: true,
+        useCORS: true,
+        scale: 2,
+        backgroundColor: '#ffffff'
+    }).then(function(canvas) {
+        // 3. 다운로드 실행 후 푸터를 다시 '표시' (원래 상태인 flex로 복원)
+        footerElement.style.display = 'flex';
+
+        const link = document.createElement('a');
+        link.download = 'my-monthly-keywords.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
 }
 

@@ -697,7 +697,9 @@ h3 {
 
 #cloud-container {
     width: 100%;
-    height: 350px; /* 높이를 좀 더 시원하게 키움 */
+    /* ★ [수정] 높이를 350px에서 450px로 늘림 */
+    height: 450px;
+
     background-color: #fafafa;
     border-radius: 12px;
     position: relative;

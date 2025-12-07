@@ -224,19 +224,20 @@ public class DiaryService {
                 String pos = token.getPos();
                 String word = token.getMorph();
 
-                // 명사(NN) 혹은 동사(VV)이면서, 2글자 이상인 것만 추출
-                if ((pos.startsWith("NN") || pos.startsWith("VV")) && word.length() > 1) {
-                    if (pos.startsWith("VV")) {
-                        word = word + "다";
+                if ((pos.startsWith("NN") || pos.startsWith("VV") || pos.startsWith("VA")) && word.length() > 1) {
+
+                    // ★ [수정] 동사뿐만 아니라 형용사도 어간(root)에 '다'를 붙여서 원형으로 변환
+                    if (pos.startsWith("VV") || pos.startsWith("VA")) {
+                        word = word + "다"; // 예: '슬프' -> '슬프다'
                     }
                     frequencyMap.put(word, frequencyMap.getOrDefault(word, 0) + 1);
                 }
             }
 
-            // 4. 많이 나온 순서대로 정렬 후 상위 10개 반환
+            // 4. 많이 나온 순서대로 정렬 후 상위 30개 반환
             return frequencyMap.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                    .limit(10)
+                    .limit(20)
                     // ★ [수정된 부분] Map.<String, Object>of(...) 로 타입을 확실하게 고정
                     .map(entry -> Map.<String, Object>of(
                             "text", entry.getKey(),
