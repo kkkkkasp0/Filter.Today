@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/diary")
@@ -88,5 +90,21 @@ public class DiaryController {
         // (필요하다면 한글 이름도 같이 보내줄 수 있음)
 
         return ResponseEntity.ok(diaryResponseDto);
+    }
+
+    //키워드
+    @GetMapping("/analysis/keywords")
+    public ResponseEntity<List<Map<String, Object>>> getKeywords(
+            @RequestParam int year,
+            @RequestParam int month,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        return ResponseEntity.ok(diaryService.getTopKeywords(userDetails.getUsername(), year, month));
+    }
+    @GetMapping("/nickname")
+    public ResponseEntity<String> getMyNickname(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) return ResponseEntity.ok("Guest");
+        String nickname = diaryService.getNickname(userDetails.getUsername());
+        return ResponseEntity.ok(nickname);
     }
 }

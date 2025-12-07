@@ -12,4 +12,6 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findByMemberIdAndRecordDateBetween(Long memberId, LocalDate startDate, LocalDate endDate);
 
     Optional<Diary> findByMemberEmailAndRecordDate(String email, LocalDate recordDate);
+
+    List<Diary> findByMemberEmailAndRecordDateBetween(String email, LocalDate of, LocalDate localDate);
 }

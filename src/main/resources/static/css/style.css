@@ -1,248 +1,460 @@
 *, *::before, *::after {
-    box-sizing: border-box; /* 모든 요소에 적용하여 삐져나감 문제를 원천 차단 */
+    box-sizing: border-box;
 }
+
 /*
  * =========================================================
- * 1. 기본 스타일 및 초기화 (Reset & Base)
+ * 1. 기본 스타일 및 초기화
  * =========================================================
  */
+html {
+    scroll-behavior: smooth; /* 스크롤 부드럽게 이동 */
+}
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7f9; /* 무채색 배경 */
+    background-color: #f4f7f9;
     color: #333;
-    /* 이 속성들은 login.html/signup.html의 전체 화면 중앙 정렬을 위해 index.html과 공유됨 */
+
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
-/* index.html의 메인 컨텐츠만 flex 영향을 받지 않도록 예외 처리 */
-.dashboard-container {
-    align-self: flex-start; /* flex-start로 상단에 고정 */
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
 
 h1, h2, h3 {
     margin-top: 0;
+    margin-bottom: 10px;
 }
 
 /*
  * =========================================================
- * 2. A. 네비게이션 바 스타일 (index.html)
+ * 2. 네비게이션 바 (헤더)
  * =========================================================
  */
 #navigation-bar {
-    /* 네비게이션 바는 화면 전체 너비를 사용하며 body의 flex 중앙 정렬을 무시해야 함 */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100; /* 다른 요소 위에 표시 */
+    z-index: 100;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
+    padding: 10px 30px; /* 패딩 축소 */
     background-color: #fff;
     border-bottom: 1px solid #eee;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
 .logo {
-    font-size: 26.7px;
+    font-size: 22px; /* 사이즈 약간 축소 */
     font-weight: bold;
     color: #333;
 }
-#month-select {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
 
 .month-selector select {
-    margin-left: 5px; /* 드롭다운 사이에 간격 추가 */
-    padding: 8px;
+    padding: 5px 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    margin-left: 5px;
+    font-size: 13px;
 }
+
 .auth-buttons button {
     border: none;
     background-color: transparent;
-    color: #6c757d; /* 옅은 회색 텍스트 (무채색 기반) */
-    cursor: pointer;
-
-    font-size: 15px; /* 약간 키워서 존재감 확보 */
-    font-weight: 500;
-    letter-spacing: 0.5px; /* 글자 간격을 살짝 띄워 세련미 강조 */
-
-    padding: 8px 12px;
-    border-radius: 4px;
-
-    transition: color 0.2s ease-in-out, transform 0.1s; /* 색상 전환만 부드럽게 */
-
-    margin-left: 10px;
-}
-
-/* 2. '로그아웃' 버튼 호버 효과: 일반 텍스트가 약간 진해짐 */
-/* #logout-btn에도 적용됨 */
-.auth-buttons button:hover {
-    color: #343a40; /* 짙은 회색으로 살짝 진해짐 */
-    background-color: transparent; /* 배경색 변화 없음 */
-}
-
-/* 3. '로그인' 버튼 강조: 갬성적인 골드/주황색 계열 텍스트 포인트 */
-#login-btn {
-    /* 평소에는 옅은 텍스트 */
     color: #6c757d;
-    font-weight: 600; /* 굵기만 더 강조 */
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 10px;
+    margin-left: 10px;
+    transition: color 0.2s;
+}
+
+.auth-buttons button:hover {
+    color: #343a40;
 }
 
 #login-btn:hover {
-    /* 호버 시 주황색 계열 (감성 톤) 텍스트로 변화 */
     color: #FF9900;
-    /* 미세한 입체감을 위한 그림자 (선택 사항, 깔끔함을 위해 제거 가능) */
-    text-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
 }
 
 /*
  * =========================================================
- * 3. 메인 대시보드 레이아웃 (index.html)
+ * 3. 메인 대시보드 레이아웃
  * =========================================================
  */
 .dashboard-container {
+    padding-top: 70px; /* 네비게이션 바 높이 고려 */
+    width: 100%;
+    max-width: 1200px; /* 전체 폭을 줄여서 오밀조밀하게 */
+
     display: flex;
-    max-width: 1400px;
-    margin: 80px auto 20px auto; /* 네비게이션바 높이만큼 여백 확보 */
-    padding: 0 20px;
-    width: 100%; /* max-width가 적용되도록 */
+    flex-direction: column;
+    gap: 15px; /* 섹션 간 간격 축소 */
+
+    justify-content: flex-start;
+    align-items: stretch;
 }
 
-/* B. 톤앤무드 섹션 */
+/* 3-1. 상단 헤더 (Tone & Mood + 범례) */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 20px; /* 패딩 축소 */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.dashboard-header h2 {
+    margin: 0;
+    font-size: 20px; /* 제목 크기 축소 */
+}
+
+.emotion-legend {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+/* 3-2. 하단 콘텐츠 (달력 vs 사이드바) */
+.dashboard-content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch; /* 높이 맞춤 */
+    gap: 15px;
+    min-height: 550px;
+}
+
+/* 왼쪽: 달력 섹션 */
 #hue-map-section {
     flex: 3;
-    padding-right: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 15px; /* 패딩 축소 */
+
+    display: flex;
+    flex-direction: column;
 }
+
 #calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    gap: 6px; /* 칸 사이 간격 축소 */
+    flex-grow: 1;
 }
+
 .day-header {
     text-align: center;
     font-weight: bold;
-    padding: 10px 0;
-    color: #666;
+    padding: 8px 0;
+    color: #888;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+    font-size: 13px;
 }
+
+/* 달력 칸 스타일 (작고 귀엽게) */
 .date-block {
+    /* ★ [수정] 작성 가능한 날짜는 밝은 흰색으로 설정해 '쓸 수 있음'을 강조 */
+    background-color: #ffffff;
+    border: 1px solid #eee; /* 얇은 테두리로 깔끔하게 */
+    border-radius: 6px;
+    padding: 6px;
+
+    /* 크기 및 정렬 (기존 유지) */
     height: 100px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.2s;
-    position: relative;
-    border-radius: 4px;
-    background-color: #ddd;
-    color: #999;
-    display: flex;
-    flex-direction: column; /* 날짜 숫자와 메모를 세로로 배치 */
-    justify-content: flex-start; /* 위쪽 정렬 */
-    align-items: flex-start; /* 왼쪽 정렬 */
-    overflow: hidden; /* 박스를 벗어나는 내용 숨김 */
-}
-.date-block:hover {
-    transform: scale(1.03);
-    z-index: 10;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-.memo-preview {
-    font-size: 10px;       /* 아주 작은 글씨 */
-    color: rgba(255, 255, 255, 0.9); /* 흰색 글씨 (배경색이 진할 것을 대비) */
-    width: 100%;           /* 가로 꽉 차게 */
-    margin-top: 5px;       /* 날짜 숫자와 간격 */
+    width: 100%;
+    min-width: 0;
 
-    /* 긴 글씨를 ...으로 줄이는 마법의 3줄 */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    text-align: left;
-    padding-left: 2px;
-}
-
-/* 사이드바 스타일 (C. 통계, D. 입력폼) */
-.sidebar {
-    margin-top: 122px;
-    flex: 1.5;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-}
-#stats-section, #diary-input-section {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-.chart-container {
-    max-height: 300px;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    cursor: pointer; /* 손가락 모양 커서 */
+    transition: all 0.2s; /* 부드러운 효과 */
+    position: relative;
+
+    font-size: 12px;
+    color: #333; /* 글씨 색 진하게 */
+    overflow: hidden;
 }
 
+/* 2. 작성 가능한 날짜에 마우스 올렸을 때 */
+.date-block:hover {
+    transform: translateY(-3px); /* 둥실 떠오름 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 그림자 */
+    border-color: #ddd;
+    z-index: 10;
+}
+
+/* 3. ★ [핵심] 미래 날짜 (작성 불가) 스타일 */
+.date-block.future-day {
+    /* ★ 배경을 어두운 회색으로, 패턴을 줘서 '잠김' 느낌 */
+    background-color: #f2f4f6;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0,0,0,0.02) 10px,
+        rgba(0,0,0,0.02) 20px
+    );
+
+    color: #ccc;      /* 글씨를 흐리게 */
+    cursor: default;  /* 마우스 커서 기본(화살표)으로 변경 */
+    border: 1px solid #f2f4f6; /* 테두리도 배경색과 맞춤 */
+}
+
+/* 4. 미래 날짜는 마우스 올려도 반응 없게 */
+.date-block.future-day:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #f2f4f6;
+}
+
+/* 5. 일기가 작성된 날짜 (색상이 칠해짐) */
+.date-block.has-diary {
+    color: white; /* 글씨 흰색 */
+    border: none; /* 테두리 없앰 */
+}
+
+/* 달력 내 일기 미리보기 텍스트 */
+.memo-preview {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.95);
+    width: 100%;
+    margin-top: 4px;
+    line-height: 1.3;
+
+    /* ★ [핵심 2] 글자가 박스 밖으로 튀어나가지 않게 강제로 줄바꿈 */
+    white-space: normal;        /* 줄바꿈 허용 */
+    word-break: break-all;      /* 영어나 숫자도 강제로 줄바꿈 */
+    overflow-wrap: break-word;  /* 단어 단위로 예쁘게 줄바꿈 */
+
+    /* 3줄 넘어가면 ... 처리 */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* 오른쪽: 사이드바 섹션 */
+.sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 320px; /* 너비 약간 축소 */
+}
+
+/* 일기 입력창 */
+#diary-input-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 15px;
+}
+
+/* 통계 섹션 (제목 왼쪽, 차트 중앙) */
+#stats-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 15px;
+
+    flex-grow: 1; /* 바닥 라인 맞추기 위해 늘어남 */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 위에서부터 배치 */
+    align-items: flex-start; /* ★ 중요: 제목을 왼쪽으로 보냄 */
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+    width: 260px !important; /* 차트 크기 강제 고정 */
+    height: 180px !important;
+    margin: 20px auto 0 auto; /* ★ 상단 여백 20px, 좌우 auto로 중앙 정렬 */
+    position: relative;
+}
+
+/* 워드 클라우드 섹션 (추가된 기능) */
+#wordcloud-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 20px;
+    margin-top: 15px;
+}
+.cloud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+#cloud-container {
+    width: 100%;
+    height: 300px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /*
  * =========================================================
- * 4. D. 기록/입력 폼 스타일 (index.html)
+ * 4. 폼 요소 및 버튼 스타일
  * =========================================================
  */
+h3 {
+    font-size: 16px;
+    color: #444;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
 #diary-text-input {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    resize: none;
+    font-size: 13px;
+    min-height: 80px;
 }
-#save-diary-btn, #delete-diary-btn {
-    padding: 10px 15px;
+
+.input-mode-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+}
+
+.mode-btn.active {
+    background-color: #333;
+    color: white;
+    border-color: #333;
+}
+
+#save-diary-btn {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
     margin-top: 10px;
+    cursor: pointer;
+}
+#save-diary-btn:hover { background-color: #45a049; }
+
+#delete-diary-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 12px;
+    margin-left: 5px;
 }
+
+/* 컬러 피커 영역 */
+#color-picker-placeholder {
+    margin-top: 10px;
+}
+#manual-input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+#emotion-color-picker {
+    width: 40px;
+    height: 30px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* 범례 아이템 */
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+}
+.color-dot {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+/* css/style.css */
+
+/* 1. 버튼들을 감싸는 컨테이너 */
+.button-group {
+    display: flex;       /* 가로 배치 시작 */
+    gap: 10px;           /* 버튼 사이 간격 */
+    margin-top: 15px;    /* 위쪽 입력창과의 간격 */
+    width: 100%;
+}
+
+/* 2. 저장 & 삭제 버튼 공통 스타일 수정 */
+#save-diary-btn, #delete-diary-btn {
+    flex: 1;             /* 공간을 1:1로 공평하게 나눠 가짐 */
+    width: auto;         /* 기존 width: 100% 무효화 */
+    margin: 0;           /* 기존 마진 제거 (컨테이너가 간격 조절함) */
+
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+/* 3. 색상 설정 (기존 유지) */
 #save-diary-btn {
     background-color: #4CAF50;
     color: white;
 }
+#save-diary-btn:hover { background-color: #45a049; }
+
 #delete-diary-btn {
     background-color: #f44336;
     color: white;
-    margin-left: 5px;
 }
-#color-picker-placeholder{
-    margin: 30px 0 0 15px;
-}
-#selected-emotion-label{
-    font-size: 14px;
-}
-h2{
-    margin-top: 20px;
-}
-h3{
-    font-size: 20px;
-    margin: -5px 0 0 -15px;/*위 오른쪽 아래 왼*/
-}
-
+#delete-diary-btn:hover { background-color: #d32f2f; }
 
 /*
  * =========================================================
@@ -459,15 +671,86 @@ h3{
     cursor: pointer;
     font-weight: bold;
 }
+/* 1. 워드 클라우드 섹션 (전체 너비 꽉 채우기) */
+#wordcloud-section {
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 30px;
+    margin-top: 20px;
 
-.future-day {
-    background-color: #f0f0f0; /* 회색 배경 */
-    color: #ccc;               /* 연한 글씨 */
-    opacity: 0.5;              /* 전체적으로 흐리게 */
-    cursor: default;           /* 마우스 커서 기본 모양 */
-    pointer-events: none;      /* ★ 핵심: 클릭 이벤트 아예 발생 안 함 */
+    /* ★ [수정] 처음에는 안 보이게 숨김! */
+    display: none;
+
+    flex-direction: column;
 }
 
-.future-day span {
-    color: #ccc;
+.cloud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #eee;
+}
+
+#cloud-container {
+    width: 100%;
+    height: 350px; /* 높이를 좀 더 시원하게 키움 */
+    background-color: #fafafa;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. '키워드 더보기' 링크 스타일 */
+.keyword-link {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.keyword-link:hover {
+    color: #333; /* 마우스 올리면 진해짐 */
+    border-bottom: 1px solid #333; /* 밑줄 생김 */
+}
+.cloud-footer {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center;       /* 세로 중앙 정렬 */
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #eee; /* 본문과 구분선 */
+}
+
+/* 공유 문구 스타일 */
+.share-msg {
+    font-size: 14px;
+    color: #666;
+    margin-right: 12px;
+    font-weight: 600;
+}
+
+/* 다운로드 버튼 (기존 스타일 덮어쓰기) */
+#download-cloud-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: bold;
+    display: flex;       /* 아이콘과 글자 정렬 */
+    align-items: center;
+    gap: 5px;
+}
+#download-cloud-btn:hover {
+    background-color: #555;
 }
